@@ -16,3 +16,15 @@ class WarehouseService:
         order=Order(id=None, products=products)
         self.order_repo.add(order)
         return order
+
+    def product_list(self) -> List[Product]:
+        return self.product_repo.list()
+
+    def order_list(self) -> List[Order]:
+        return self.order_repo.list()
+
+    def get_product(self, product_id: int) -> Product:
+        return self.product_repo.get(product_id)
+
+    def get_order(self, order_id: int) -> Order:
+        return self.order_repo.get(order_id)
