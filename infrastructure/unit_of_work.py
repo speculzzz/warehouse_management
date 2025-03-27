@@ -1,18 +1,25 @@
 from domain.unit_of_work import UnitOfWork
 
+
 class SqlAlchemyUnitOfWork(UnitOfWork):
 
     def __init__(self, session):
-        pass
+        self.session = session
+        self.committed = False
 
     def __enter__(self):
-        pass
+        return self
 
     def __exit__(self, exception_type, exception_value, traceback):
-        pass
+        if exception_type is None and not self.committed:
+            self.commit()
+        elif exception_type is not None:
+            self.rollback()
 
     def commit(self):
-        pass
+        self.session.commit()
+        self.committed = True
 
     def rollback(self):
-        pass
+        self.session.rollback()
+        self.committed = True
