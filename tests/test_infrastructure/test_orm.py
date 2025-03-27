@@ -4,7 +4,7 @@ from infrastructure.orm import ProductORM, OrderORM
 
 # Create product
 @pytest.mark.parametrize(
-    "name,quantity,price",
+    "name, quantity, price",
     [
         ("Headphones", 15, 99.99),
         ("USB Cable", 100, 0.0),
@@ -23,6 +23,20 @@ def test_product_creation(session, name, quantity, price):
     assert db_product.name == name
     assert db_product.quantity == quantity
     assert db_product.price == price
+
+
+@pytest.mark.parametrize(
+    "name, quantity, price",
+    [
+        ("", 1, 10),
+        ("Headphones", 15, -99.99),
+        ("USB Cable", -100, 0.0),
+        ("Adapter", -1, -9.99),
+    ]
+)
+def test_product_invalid_parameters(session, name, quantity, price):
+    with pytest.raises(ValueError):
+        ProductORM(name=name, quantity=quantity, price=price)
 
 
 # Create empty order

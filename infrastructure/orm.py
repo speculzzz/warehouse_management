@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, validates
 
 Base = declarative_base()
+
 
 class ProductORM(Base):
     __tablename__ = 'products'
@@ -13,6 +14,18 @@ class ProductORM(Base):
 
     def __repr__(self):
         return f"Product(id={self.id!r}, name={self.name!r}, quantity={self.quantity!r}, price={self.price!r})"
+
+    @validates('name')
+    def validate_empty(self, key, value):
+        if not value:
+            raise ValueError(f"{key} cannot be empty")
+        return value
+
+    @validates('quantity', 'price')
+    def validate_positive(self, key, value):
+        if value < 0:
+            raise ValueError(f"{key} must be positive")
+        return value
 
 
 class OrderORM(Base):
