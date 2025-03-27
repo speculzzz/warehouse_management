@@ -15,6 +15,8 @@ class SqlAlchemyProductRepository(ProductRepository):
             price=product.price,
         )
         self.session.add(product_orm)
+        self.session.flush()
+        product.id = product_orm.id
 
     def get(self, product_id: int)->Product:
         product_orm= self.session.query(ProductORM).filter_by(id=product_id).one()
@@ -32,6 +34,7 @@ class SqlAlchemyProductRepository(ProductRepository):
             for p in products_orm
         ]
 
+
 class SqlAlchemyOrderRepository(OrderRepository):
     def __init__(self, session: Session):
         self.session=session
@@ -43,6 +46,8 @@ class SqlAlchemyOrderRepository(OrderRepository):
             for p in order.products
         ]
         self.session.add(order_orm)
+        self.session.flush()
+        order.id = order_orm.id
 
     def get(self, order_id: int)->Order:
         order_orm= self.session.query(OrderORM).filter_by(id=order_id).one()
