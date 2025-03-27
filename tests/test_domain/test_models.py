@@ -1,26 +1,27 @@
-import pytest
 from dataclasses import asdict
+
+import pytest
 from domain.models import Product,Order
 
 
 @pytest.mark.parametrize(
-    "id, name, quantity, price",
+    "idx, name, quantity, price",
     [
         (7, "Headphones", 20, 99.99),
         (8, "Webcam", 0, 29.99),
         (9, "USB Cable", 100, 0.0),
     ]
 )
-def test_products_creation(id, name, quantity, price):
-    product = Product(id=id, name=name, quantity=quantity, price=price)
-    assert product.id == id
+def test_products_creation(idx, name, quantity, price):
+    product = Product(id=idx, name=name, quantity=quantity, price=price)
+    assert product.id == idx
     assert product.name == name
     assert product.quantity == quantity
     assert product.price == price
 
 
 @pytest.mark.parametrize(
-    "id, name, quantity, price",
+    "idx, name, quantity, price",
     [
         (1, "", 1, 10),
         (2, "Headphones", 15, -99.99),
@@ -28,9 +29,9 @@ def test_products_creation(id, name, quantity, price):
         (4, "Adapter", -1, -9.99),
     ]
 )
-def test_product_invalid_parameters(id, name, quantity, price):
+def test_product_invalid_parameters(idx, name, quantity, price):
     with pytest.raises(ValueError):
-        Product(id=id, name=name, quantity=quantity, price=price)
+        Product(id=idx, name=name, quantity=quantity, price=price)
 
 
 # Check transformation into a dictionary

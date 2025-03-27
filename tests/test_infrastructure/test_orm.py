@@ -25,6 +25,7 @@ def test_product_creation(session, name, quantity, price):
     assert db_product.price == price
 
 
+@pytest.mark.usefixtures("session")
 @pytest.mark.parametrize(
     "name, quantity, price",
     [
@@ -34,7 +35,7 @@ def test_product_creation(session, name, quantity, price):
         ("Adapter", -1, -9.99),
     ]
 )
-def test_product_invalid_parameters(session, name, quantity, price):
+def test_product_invalid_parameters(name, quantity, price):
     with pytest.raises(ValueError):
         ProductORM(name=name, quantity=quantity, price=price)
 
@@ -60,7 +61,8 @@ def test_query_orders_with_products(session, sample_order):
 
 
 # Check relationship
-def test_product_order_relationship(session, sample_order):
+@pytest.mark.usefixtures("sample_order")
+def test_product_order_relationship(session):
     order = session.query(OrderORM).first()
     assert len(order.products) == 2
     assert {p.name for p in order.products} == {"Keyboard", "Mouse"}
