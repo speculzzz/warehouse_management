@@ -1,0 +1,23 @@
+[project]
+name = "warehouse-management"
+version = "0.1.0"
+description = "Warehouse Managament"
+authors = [{name = "speculzzz", email = "speculzzz@gmail.com"}]
+dependencies = [
+    "sqlalchemy>=2.0.39",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "pylint>=3.3.5",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "use_savepoint: switch the sqlalchemy session in test to the SAVEPOINT mode",
+]
