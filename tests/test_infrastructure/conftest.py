@@ -14,7 +14,7 @@ def sample_products(session):
 
 
 @pytest.fixture
-def sample_order(session, sample_products):
+def sample_order(session, sample_products):  # pylint: disable=redefined-outer-name
     order = OrderORM()
     order.products.extend(sample_products)
     session.add(order)

@@ -1,6 +1,6 @@
 import pytest
-from domain.models import Product
 from sqlalchemy.exc import NoResultFound
+from domain.models import Product
 
 
 def test_create_product(service):
